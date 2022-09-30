@@ -14,10 +14,15 @@ steps:
     id: test
   # Verify code with sonarqube - Quality gate
   - name: 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/sonar-scanner:latest'
-    entrypoint: 'bash'
+    #entrypoint: 'bash'
     args:
-    - -c
-    - -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
+    #- -c
+    - -Dsonar.host.url=https://sonarcloud.io 
+    - -Dsonar.login=$$SONAR_TOKEN 
+    - -Dsonar.projectKey=$$SONAR_PROJECT_KEY 
+    - -Dsonar.organization=$$SONAR_ORG 
+    - -Dsonar.sources=./app 
+    - -Dsonar.qualitygate.wait=false
     secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
   # Push docker image and save image digest for kritis check
   - name: 'gcr.io/cloud-builders/docker'
