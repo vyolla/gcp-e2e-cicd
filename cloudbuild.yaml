@@ -34,15 +34,7 @@ steps:
       - '--attestor-project'
       - '${PROJECT_ID}'
       - '--keyversion'
-      - 'KEY_VERSION'
-      - '--keyversion-project'
-      - '${PROJECT_ID}'
-      - '--keyversion-location'
-      - 'global'
-      - '--keyversion-keyring'
-      - 'cicddemo-keyring'
-      - '--keyversion-key'
-      - '1'
+      - 'projects/ci-cd-full-demo/locations/global/keyRings/cicddemo-keyring/cryptoKeys/cicddemo-kms-key/cryptoKeyVersions/1'
     id: 'create-attestation'
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
