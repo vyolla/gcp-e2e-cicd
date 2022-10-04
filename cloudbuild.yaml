@@ -25,25 +25,25 @@ steps:
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}']
     id: push
   # Atestation
-  - id: 'create-attestation'
-  name: 'gcr.io/${PROJECT_ID}/binauthz-attestation:latest'
-  args:
-    - '--artifact-url'
-    - 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}'
-    - '--attestor'
-    - 'attestor-cicddemo'
-    - '--attestor-project'
-    - '${PROJECT_ID}'
-    - '--keyversion'
-    - 'KEY_VERSION'
-    - '--keyversion-project'
-    - '${PROJECT_ID}'
-    - '--keyversion-location'
-    - 'global'
-    - '--keyversion-keyring'
-    - 'cicddemo-keyring'
-    - '--keyversion-key'
-    - '1'
+  - name: 'gcr.io/${PROJECT_ID}/binauthz-attestation:latest'
+    args:
+      - '--artifact-url'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}'
+      - '--attestor'
+      - 'attestor-cicddemo'
+      - '--attestor-project'
+      - '${PROJECT_ID}'
+      - '--keyversion'
+      - 'KEY_VERSION'
+      - '--keyversion-project'
+      - '${PROJECT_ID}'
+      - '--keyversion-location'
+      - 'global'
+      - '--keyversion-keyring'
+      - 'cicddemo-keyring'
+      - '--keyversion-key'
+      - '1'
+    id: 'create-attestation'
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
