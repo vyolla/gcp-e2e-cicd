@@ -36,18 +36,28 @@ steps:
       - '--keyversion'
       - 'projects/ci-cd-full-demo/locations/global/keyRings/cicddemo-keyring/cryptoKeys/cicddemo-kms-key/cryptoKeyVersions/1'
     id: 'create-attestation'
-  # Create release in Google Cloud Deploy
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: gcloud
-    args: 
-      [
-        "beta", "deploy", "releases", "create", "rel-${SHORT_SHA}",
-        "--delivery-pipeline", "hello-world-python-pipeline",
-        "--region", "us-central1",
-        "--annotations", "commitId=${REVISION_ID}",
-        "--images", "hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}"
-      ]
+  # Validate variables   
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      DIGEST_VALUE="$(gcloud artifacts docker images describe us-central1-docker.pkg.dev/ci-cd-full-demo/hello-world-python/hello-world-python:${COMMIT_SHA} --format 'value(image_summary.digest)')"
+      gcloud beta deploy releases create rel-${SHORT_SHA} --delivery-pipeline=hello-world-python-pipeline --region=us-central1 --annotations="commitId=${REVISION_ID}" --images=hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${DIGEST_VALUE} 
     id: deploy
+    
+  # Create release in Google Cloud Deploy
+#  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+#    entrypoint: gcloud
+#    args: 
+#      [
+#        "beta", "deploy", "releases", "create", "rel-${SHORT_SHA}",
+#        "--delivery-pipeline", "hello-world-python-pipeline",
+#        "--region", "us-central1",
+#        "--annotations", "commitId=${REVISION_ID}",
+#        "--images", "hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:"
+#      ]
+#   id: deploy
 availableSecrets:
   secretManager:
   - versionName: projects/$PROJECT_ID/secrets/sonar_token/versions/1
