@@ -43,7 +43,7 @@ steps:
     - '-c'
     - |
       DIGEST_VALUE="$(gcloud artifacts docker images describe us-central1-docker.pkg.dev/ci-cd-full-demo/hello-world-python/hello-world-python:${COMMIT_SHA} --format 'value(image_summary.digest)')"
-      gcloud beta deploy releases create rel-${SHORT_SHA} --delivery-pipeline=hello-world-python-pipeline --region=us-central1 --annotations="commitId=${REVISION_ID}" --images=hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${DIGEST_VALUE} 
+      gcloud beta deploy releases create rel-${SHORT_SHA} --delivery-pipeline=hello-world-python-pipeline --region=us-central1 --annotations="commitId=${REVISION_ID}" --images=hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:$DIGEST_VALUE 
     id: deploy
     
   # Create release in Google Cloud Deploy
